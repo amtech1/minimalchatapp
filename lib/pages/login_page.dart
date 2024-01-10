@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:minimalchatapp/Components/my_button.dart';
 import 'package:minimalchatapp/Components/my_textfield.dart';
+import 'package:minimalchatapp/auth/auth_service.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
   final void Function()? onTap;
   LoginPage({super.key, this.onTap});
-  void login() {}
+  void login(BuildContext context) async {
+    final authService = AuthService();
+    try {
+      await authService.signinwithemailpassword(
+          emailcontroller.text, passwordcontroller.text);
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            e.toString(),
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +69,7 @@ class LoginPage extends StatelessWidget {
             ),
             MyButton(
               text: "login",
-              onTap: login,
+              onTap: () => login(context),
             ),
             SizedBox(
               height: 25,

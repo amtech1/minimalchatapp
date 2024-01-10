@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minimalchatapp/Components/my_button.dart';
 import 'package:minimalchatapp/Components/my_textfield.dart';
+import 'package:minimalchatapp/auth/auth_service.dart';
 
 class registerpage extends StatelessWidget {
   final void Function()? onTap;
@@ -9,7 +10,25 @@ class registerpage extends StatelessWidget {
   final TextEditingController passwordcontroller = TextEditingController();
   final TextEditingController cpasswordcontroller = TextEditingController();
 
-  void register() {}
+  void register(BuildContext context) {
+    final _auth = AuthService();
+    if (passwordcontroller.text == cpasswordcontroller.text) {
+      try {
+        _auth.signupwithemailpassword(
+            emailcontroller.text, passwordcontroller.text);
+      } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              e.toString(),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +81,7 @@ class registerpage extends StatelessWidget {
             ),
             MyButton(
               text: "register",
-              onTap: register,
+              onTap: () => register(context),
             ),
             SizedBox(
               height: 25,

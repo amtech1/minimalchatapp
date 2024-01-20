@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minimalchatapp/auth/auth_service.dart';
+import 'package:minimalchatapp/Services/auth/auth_service.dart';
 import 'package:minimalchatapp/pages/Settings_page.dart';
 
 class MyDrawer extends StatelessWidget {

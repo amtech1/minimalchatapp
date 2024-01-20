@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:minimalchatapp/Components/my_drawer.dart';
@@ -18,6 +16,9 @@ class Homepage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("homepage"),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey,
       ),
       drawer: MyDrawer(),
       body: _buildUserList(),
@@ -44,17 +45,22 @@ class Homepage extends StatelessWidget {
 
   Widget builduserlistitem(
       Map<String, dynamic> userData, BuildContext context) {
-    return UserTile(
-        text: userData["email"],
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatPage(
-                ReceiverEmail: userData["email"],
+    if (userData["email"] != _authService.getcurrentuser()!.email) {
+      return UserTile(
+          text: userData["email"],
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatPage(
+                  ReceiverEmail: userData["email"],
+                  receiverID: userData["uid"],
+                ),
               ),
-            ),
-          );
-        });
+            );
+          });
+    } else {
+      return Container();
+    }
   }
 }
